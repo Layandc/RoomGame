@@ -16,16 +16,12 @@ public class GrabItem : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (!isHeld)
-        {
-            PickUp();
-        }
+            PickUpItem();
         else
-        {
-            Drop();
-        }
+            DropItem();
     }
 
-    void PickUp()
+    public void PickUpItem()
     {
         isHeld = true;
 
@@ -39,11 +35,11 @@ public class GrabItem : MonoBehaviour, IInteractable
             rb.useGravity = false;
         }
 
-        if (col != null)
-            col.enabled = false;
+        // لا تعطل الكوليدر بالكامل
+        // إذا بدك تمنع اصطدامه مع اللاعب، استخدم layers أو IgnoreCollision
     }
 
-    void Drop()
+    public void DropItem()
     {
         isHeld = false;
 
@@ -54,8 +50,5 @@ public class GrabItem : MonoBehaviour, IInteractable
             rb.isKinematic = false;
             rb.useGravity = true;
         }
-
-        if (col != null)
-            col.enabled = true;
     }
 }
