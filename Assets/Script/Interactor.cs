@@ -1,33 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-interface IInteractable
-{
-    public void Interact();
-}
 
 public class Interactor : MonoBehaviour
 {
-    public Transform InteractorSource;
-    public float InteractRange;
-
-    void Start()
-    {
-
-    }
+    public Transform interactorSource;
+    public float interactRange = 3f;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Ray r = new Ray(InteractorSource.position, InteractorSource.forward);
+            Ray ray = new Ray(interactorSource.position, interactorSource.forward);
 
-            if (Physics.Raycast(r, out RaycastHit hitInfo, InteractRange))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, interactRange))
             {
-                if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
+                Debug.Log("Hit: " + hitInfo.collider.name);
+
+                IInteractable interactable = hitInfo.collider.GetComponent<IInteractable>();
+
+                if (interactable != null)
                 {
-                    interactObj.Interact();
+                    interactable.Interact();
                 }
             }
         }
